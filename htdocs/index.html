@@ -3,7 +3,40 @@
     <head>
         <title>Secure Message Form</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+        <link href="flat/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen"/>
+        <link href="flat/css/flat-ui.css" rel="stylesheet" media="screen"/>
+        <style>
+            .form-horizontal .control-label {
+                width: 80px;
+            }
+            .form-horizontal .controls{
+                margin-left: 100px;
+            }       
+
+            html,
+            body {
+                height: 100%;
+                /* The html and body elements cannot have any padding or margin. */
+            }
+
+            /* Wrapper for page content to push down footer */
+            #wrap {
+                min-height: 100%;
+                height: auto !important;
+                height: 100%;
+                /* Negative indent footer by it's height */
+                margin: 0 auto -40px;
+            }
+
+            /* Set the fixed height of the footer here */
+            #push,
+            #footer {
+                height: 40px;
+            }
+h4 {
+    margin-bottom: 2em;
+}
+ </style>
     </head>
     <body>
         <script id="publickey" type="text/key">-----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -43,18 +76,49 @@ RPsxKQizNYXQQeLmXHTvRpikzKSDsnX3Vb/nE/oQH41w0tqSilSeZg5/CDbKJ00A
 dRYSWOOyRZHqUQ==
 =EyKq
 -----END PGP PUBLIC KEY BLOCK-----</script>
-        <div class="container">
-            <div class="row">
-                <h3 class="muted">Michael Ballantyne</h3>
+<div id="wrap">
+    <div class="container">
+        <div class="row">
+            <h3 class="muted">Michael Ballantyne</h3>
+        </div>
+        <div class="row">
+            <h2>Secure Message Form</h2>
+        </div>
+        <div class="row">
+            <h4>Send me a secure message, encrypted in your browser with my <a href="https://en.wikipedia.org/wiki/Pretty_Good_Privacy">PGP</a> public key.</h4>
+        </div>
+        <form class="form-horizontal" id="msgform" action="https://www.mballantyne.net/sendmessage" method="post">
+            <div class="control-group">
+                <label class="control-label" for="from">From</label>
+                <div class="controls">
+                    <input type="text" id="from" class="span4"></input>
+                </div>
             </div>
-            <div class="row"><h2>Secure Message Form</h2></div>
-            <div class="row"><h4>Send me a secure message, encrypted in your browser with my PGP public key.</div>
-            <form id="msgform" action="https://www.mballantyne.net/sendmessage" method="post">
-                <!-- textarea does not have a name, so plaintext is not submitted. -->
-                <div class="row"><textarea id="msg" class="span12" rows="10"></textarea></div>
-                <div class="row"><button type="submit" class="btn">Encrypt and Send</button>
+            <div class="control-group">
+                <label class="control-label" for="subject">Subject</label>
+                <div class="controls">
+                    <input type="text" id="subject" class="span4"></input>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="msg">Message</label>
+                <div class="controls">
+                    <!-- textarea does not have a name, so plaintext is not submitted. -->
+                    <textarea id="msg" class="span12" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">Encrypt and Send</button>
+                </div>
             </form>
         </div>
+        <div id="push"></div>
+    </div>
+</div>
+<div id="footer" class="text-center">
+    <p>Built with <a href="http://twitter.github.io/bootstrap/">Bootstrap</a>, <a href="http://designmodo.github.io/Flat-UI/">Flat UI</a> and <a href="http://openpgpjs.org/">OpenPGP.js</a>.</p>
+</div>
 
         <script src="jquery-1.10.1.min.js"></script>
         <script src="openpgp.js"></script>
@@ -65,9 +129,9 @@ dRYSWOOyRZHqUQ==
                 var plaintext = $("#msg").val();
                 var ciphertext = openpgp.write_encrypted_message(publickey, plaintext);
                 $('<input>').attr({
-                    type: 'hidden',
-                    name: 'encrypted',
-                    value: ciphertext
+                        type: 'hidden',
+                        name: 'encrypted',
+                        value: ciphertext
                 }).appendTo('#msgform');
             };
             $('#msgform').submit(submit);
