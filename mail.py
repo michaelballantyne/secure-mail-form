@@ -1,4 +1,4 @@
-import cgi, smtplib
+import cgi, smtplib, sys
 from email.mime.text import MIMEText
 def application(environ, start_response):
     if environ['REQUEST_METHOD'] == 'POST':
@@ -20,6 +20,7 @@ def application(environ, start_response):
             start_response('301 Redirect', [('Location', 'sent.html'),])
             return []
 
-        except:
+        except Exception as e:
+            print >> sys.stderr, e 
             start_response('301 Redirect', [('Location', 'failed.html'),])
             return []
