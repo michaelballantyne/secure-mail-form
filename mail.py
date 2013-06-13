@@ -6,14 +6,15 @@ def application(environ, start_response):
             form = cgi.FieldStorage(fp=environ['wsgi.input'], 
                                 environ=environ)
             body = form['encrypted'].value
-            addr = "michael.ballantyne@gmail.com"
+            fromaddr = "securemessage@mballantyne.net"
+            toaddr = "michael.ballantyne@gmail.com"
             msg = MIMEText(body)
-            msg['Subject'] = "Secure message form"
-            msg['From'] = addr
-            msg['To'] = addr
+            msg['Subject'] = "Secure message"
+            msg['From'] = fromaddr
+            msg['To'] = toaddr
 
             s = smtplib.SMTP('localhost')
-            s.sendmail(addr, [addr], msg.as_string())
+            s.sendmail(fromaddr, [toaddr], msg.as_string())
             s.quit()
 
             start_response('301 Redirect', [('Location', 'sent.html'),])
