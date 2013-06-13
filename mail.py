@@ -9,7 +9,7 @@ def application(environ, start_response):
             fromaddr = "michael.ballantyne@gmail.com"
             toaddr = "michael.ballantyne@gmail.com"
             msg = MIMEText(body)
-            msg['Subject'] = "Secure message" + datetime.datetime.
+            msg['Subject'] = "Secure message"
             msg['From'] = fromaddr
             msg['To'] = toaddr
 
