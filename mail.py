@@ -1,6 +1,6 @@
 import cgi, smtplib
 from email.mime.text import MIMEText
-def app(environ, start_response):
+def application(environ, start_response):
     if environ['REQUEST_METHOD'] == 'POST':
         try:
             form = cgi.FieldStorage(fp=environ['wsgi.input'], 
